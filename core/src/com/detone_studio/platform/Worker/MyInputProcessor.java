@@ -3,13 +3,24 @@ package com.detone_studio.platform.Worker;
 import com.badlogic.gdx.InputProcessor;
 import com.detone_studio.platform.States.TestState;
 
-import static com.detone_studio.platform.States.TestState.animation;
 import static com.detone_studio.platform.States.TestState.animtime;
+import static com.detone_studio.platform.States.TestState.character_hero;
 
 public class MyInputProcessor implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         //TestState.man_y-=5;
+        switch (keycode) {
+            case 19:
+                character_hero.jump();
+                break;
+            case 22:
+                character_hero.go_right();
+                break;
+            case 21:
+                 character_hero.go_left();
+                break;
+        }
         return false;
     }
 
@@ -27,20 +38,24 @@ public class MyInputProcessor implements InputProcessor {
                 //animation.setCurrentFrameTime(0.7f);
                 //System.out.println("Anim TIME :"+animtime);
                 break;
-            case 19:
-                //up
-                TestState.man_y+=5;
-                break;
             case 20:
                 //up
-                TestState.man_y-=5;
+                //TestState.man_y+=5;
+                break;
+            case 19:
+                //up
+                character_hero.jump_over();
+                //TestState.man_y-=5;
                 break;
             case 21:
                 //up
-                TestState.man_x-=5;
+                character_hero.go_left_over();
+                //TestState.man_x-=5;
                 break;
             case 22:
-                TestState.man_x+=5;
+                character_hero.go_right_over();
+
+                //TestState.man_x+=5;
                 break;
         }
 

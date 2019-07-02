@@ -48,6 +48,11 @@ public class Animation {
         }
     }
 
+    public void flip_tex(){
+        for (int i=0;i<frameCount;i++){
+            frames.get(i).flip(true,false);
+        }
+    }
     public TextureRegion getFrames() {
         return frames.get(frame);
     }
