@@ -14,13 +14,15 @@ public class TestState extends State {
     public static Sprite img;
     InputProcessor inputProcessor;
     public static int man_x,man_y;
-    private Animation animation;
+    public static Animation animation;
     private Texture ima;
+    public static float animtime;
 
     public TestState(GameStateManager gsm) {
         super(gsm);
         ima = new Texture("atlas/idle_char.png");
-        animation = new Animation(new Sprite(ima),5,0.5f);
+        animtime= 0.8f;
+        animation = new Animation(new Sprite(ima),5,animtime);
         img = new Sprite(new Texture("sprites/static_1.png"));
         man_x=10;
         man_y=10;

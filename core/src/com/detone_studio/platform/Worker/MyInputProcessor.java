@@ -3,6 +3,9 @@ package com.detone_studio.platform.Worker;
 import com.badlogic.gdx.InputProcessor;
 import com.detone_studio.platform.States.TestState;
 
+import static com.detone_studio.platform.States.TestState.animation;
+import static com.detone_studio.platform.States.TestState.animtime;
+
 public class MyInputProcessor implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
@@ -14,6 +17,16 @@ public class MyInputProcessor implements InputProcessor {
     public boolean keyUp(int keycode) {
         System.out.println("Key pressed :"+keycode);
         switch (keycode){
+            case 144:
+                //animtime+=0.05f;
+                //animation.setCurrentFrameTime(0.7f);
+                //System.out.println("Anim TIME :"+animtime);
+                break;
+            case 56:
+                //animtime-=0.05f;
+                //animation.setCurrentFrameTime(0.7f);
+                //System.out.println("Anim TIME :"+animtime);
+                break;
             case 19:
                 //up
                 TestState.man_y+=5;
