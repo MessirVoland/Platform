@@ -79,8 +79,11 @@ public class TestState extends State {
         rec_character_hero.y=character_hero.GetY();
 
         if (!isOverlaping) {
-            System.out.println("Heal potion taken");
+
             isOverlaping = health_potion.getBoundingRectangle().overlaps(rec_character_hero);
+            if (isOverlaping){
+                System.out.println("Heal potion taken");
+            }
         }
     }
 
