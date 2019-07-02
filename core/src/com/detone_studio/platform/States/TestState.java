@@ -30,11 +30,13 @@ public class TestState extends State {
 
 
     private Texture ima;
+    private Texture back;
 
     public static float animtime;
 
     public TestState(GameStateManager gsm) {
         super(gsm);
+        back = new Texture("non_project_tiles/legs.jpg");
         FontRed1 = new BitmapFont();
         FontRed1.setColor(Color.RED); //Красный
         isOverlaping =false;
@@ -44,12 +46,12 @@ public class TestState extends State {
         rec_health_potion= new Rectangle(health_potion.getX(),health_potion.getY(),health_potion.getWidth(),health_potion.getHeight());
 
 
-        grass = new Sprite(new Texture("sprites/Platform1.png"));
-        grass.setPosition(0,0);
-        grass2 = new Sprite(new Texture("sprites/Platform1.png"));
-        grass2.setPosition(64,0);
-        grass3 = new Sprite(new Texture("sprites/Platform1.png"));
-        grass3.setPosition(128,0);
+        grass = new Sprite(new Texture("sprites/Platform1.2.png"));
+        grass.setPosition(0,1);
+        grass2 = new Sprite(new Texture("sprites/Platform1.2.png"));
+        grass2.setPosition(64,2);
+        grass3 = new Sprite(new Texture("sprites/Platform1.2.png"));
+        grass3.setPosition(128,3);
 
 
 
@@ -57,6 +59,7 @@ public class TestState extends State {
         man_x=30;
         man_y=64;
         character_hero = new Character_hero(man_x,man_y);
+
         rec_character_hero=new Rectangle(character_hero.GetX(),character_hero.GetY(),character_hero.GetWidth(),character_hero.GetHeight());
         //img.setPosition(man_x,man_y);
         inputProcessor = new MyInputProcessor();
@@ -91,6 +94,7 @@ public class TestState extends State {
     public void render(SpriteBatch sb) {
         //sb.setProjectionMatrix(camera.combined);
         sb.begin();
+        sb.draw(back,0,0);
         grass.draw(sb);
         grass2.draw(sb);
         grass3.draw(sb);
@@ -117,6 +121,7 @@ public class TestState extends State {
         //animation.getFrames().getTexture();
         //img.draw(sb);
         //animation.getFrames().getTexture().;
+
         sb.end();
     }
 
