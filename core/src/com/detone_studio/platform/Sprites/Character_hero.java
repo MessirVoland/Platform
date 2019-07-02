@@ -68,6 +68,19 @@ public class Character_hero extends Sprite_basic {
         left=false;
     }
 
+    public int GetX(){
+        return Math.round(position.x);
+    }
+    public int GetY(){
+        return Math.round(position.y);
+    }
+    public int GetWidth(){
+        return animation.getFrames().getRegionWidth();
+    }
+    public int GetHeight(){
+        return animation.getFrames().getRegionHeight();
+    }
+
     @Override
     public void update(float dt) {
         animation.update(dt);

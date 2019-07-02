@@ -8,17 +8,25 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+
+import com.badlogic.gdx.math.Rectangle;
 import com.detone_studio.platform.GameStateManager;
 import com.detone_studio.platform.Sprites.Animation;
 import com.detone_studio.platform.Sprites.Character_hero;
 import com.detone_studio.platform.Worker.MyInputProcessor;
 
+
 public class TestState extends State {
     public static Sprite img,grass,grass2,grass3;
     InputProcessor inputProcessor;
+    boolean isOverlaping;
     public static int man_x,man_y;
     private BitmapFont FontRed1;
     public static Character_hero character_hero;
+    public static Sprite health_potion;
+
+    public Rectangle rec_health_potion;
+    public Rectangle rec_character_hero;
 
 
     private Texture ima;
@@ -29,6 +37,12 @@ public class TestState extends State {
         super(gsm);
         FontRed1 = new BitmapFont();
         FontRed1.setColor(Color.RED); //Красный
+        isOverlaping =false;
+        health_potion = new Sprite(new Texture("non_project_tiles/heal_potion_2.png"));
+        health_potion.setPosition(320,64);
+
+        rec_health_potion= new Rectangle(health_potion.getX(),health_potion.getY(),health_potion.getWidth(),health_potion.getHeight());
+
 
         grass = new Sprite(new Texture("sprites/Platform1.png"));
         grass.setPosition(0,0);
@@ -43,6 +57,7 @@ public class TestState extends State {
         man_x=30;
         man_y=64;
         character_hero = new Character_hero(man_x,man_y);
+        rec_character_hero=new Rectangle(character_hero.GetX(),character_hero.GetY(),character_hero.GetWidth(),character_hero.GetHeight());
         //img.setPosition(man_x,man_y);
         inputProcessor = new MyInputProcessor();
         Gdx.input.setInputProcessor(inputProcessor);
@@ -60,6 +75,13 @@ public class TestState extends State {
         handleInput();
         //img.setPosition(man_x,man_y);
         character_hero.update(dt);
+        rec_character_hero.x=character_hero.GetX();
+        rec_character_hero.y=character_hero.GetY();
+
+        if (!isOverlaping) {
+            System.out.println("Heal potion taken");
+            isOverlaping = health_potion.getBoundingRectangle().overlaps(rec_character_hero);
+        }
     }
 
     @Override
@@ -69,6 +91,9 @@ public class TestState extends State {
         grass.draw(sb);
         grass2.draw(sb);
         grass3.draw(sb);
+        if (!isOverlaping) {
+            health_potion.draw(sb);
+        }
         character_hero.draw(sb);
 
 

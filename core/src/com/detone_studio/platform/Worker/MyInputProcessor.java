@@ -26,7 +26,7 @@ public class MyInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
-        System.out.println("Key pressed :"+keycode);
+        //System.out.println("Key pressed :"+keycode);
         switch (keycode){
             case 144:
                 //animtime+=0.05f;
