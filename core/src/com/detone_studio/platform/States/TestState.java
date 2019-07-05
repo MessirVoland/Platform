@@ -3,6 +3,7 @@ package com.detone_studio.platform.States;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -36,6 +37,10 @@ public class TestState extends State {
 
     public TestState(GameStateManager gsm) {
         super(gsm);
+
+
+
+
         FontRed1 = new BitmapFont();
         FontRed1.setColor(Color.RED); //Красный
         isOverlaping =false;
