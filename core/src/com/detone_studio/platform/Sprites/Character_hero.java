@@ -168,14 +168,13 @@ public class Character_hero extends Sprite_basic {
 
 
 
-
     }
 
     @Override
     public void draw(Batch sb) {
 
         if (isJumping){
-            sb.draw(animation_jump.getFrames(),position.x,position.y);
+            sb.draw(animation_jump.getFrames(),position.x-25,position.y-25);
         }else {
             sb.draw(animation_idle.getFrames(), position.x, position.y);
         }
