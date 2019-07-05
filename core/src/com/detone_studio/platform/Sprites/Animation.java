@@ -53,6 +53,12 @@ public class Animation {
             frames.get(i).flip(true,false);
         }
     }
+    public void next_frame(){
+        frame++;
+        if (frame>=frameCount){
+            frame =0;
+        }
+    }
     public TextureRegion getFrames() {
         return frames.get(frame);
     }
