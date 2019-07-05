@@ -113,16 +113,19 @@ public class Character_hero extends Sprite_basic {
                     animation_jump.setFrame(0);
                     up = true;
                     down = false;
+                    high=false;
                 }
             }else if(velosity.y>-250){
                 if (!high) {
                     up = false;
                     high = true;
-                    animation_jump.next_frame();
+                    animation_jump.setFrame(2);
+                    //animation_jump.next_frame();
                 }
             }else{
                 if(!down) {
-                    animation_jump.next_frame();
+                    animation_jump.setFrame(1);
+                    //animation_jump.next_frame();
                     high = false;
                     down = true;
                 }
