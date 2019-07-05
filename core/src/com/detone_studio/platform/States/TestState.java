@@ -29,7 +29,8 @@ public class TestState extends State {
     public Rectangle rec_character_hero;
 
 
-    private Texture ima;
+    private Texture back_ground;
+
 
     public static float animtime;
 
@@ -44,6 +45,7 @@ public class TestState extends State {
         rec_health_potion= new Rectangle(health_potion.getX(),health_potion.getY(),health_potion.getWidth(),health_potion.getHeight());
 
 
+        back_ground=new Texture("sprites/Image2.png");
         grass = new Sprite(new Texture("sprites/Platform1.2.png"));
         grass.setPosition(0,0);
         grass2 = new Sprite(new Texture("sprites/Platform1.2.png"));
@@ -91,6 +93,8 @@ public class TestState extends State {
     public void render(SpriteBatch sb) {
         //sb.setProjectionMatrix(camera.combined);
         sb.begin();
+        sb.draw(back_ground,0,0);
+        sb.draw(back_ground,480,0);
         grass.draw(sb);
         grass2.draw(sb);
         grass3.draw(sb);
