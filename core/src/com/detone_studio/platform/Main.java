@@ -23,7 +23,7 @@ public class Main implements ApplicationListener {
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
 		//Gdx.gl20.glEnable(GL30.GL_BLEND);
-		Gdx.gl.glClearColor(0, 0, 0, 0);
+		Gdx.gl.glClearColor(255, 255, 255, 0);
 		gsm.push(new TestState(gsm));
 	}
 

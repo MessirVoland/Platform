@@ -44,11 +44,11 @@ public class TestState extends State {
         rec_health_potion= new Rectangle(health_potion.getX(),health_potion.getY(),health_potion.getWidth(),health_potion.getHeight());
 
 
-        grass = new Sprite(new Texture("sprites/Platform1.png"));
+        grass = new Sprite(new Texture("sprites/Platform1.2.png"));
         grass.setPosition(0,0);
-        grass2 = new Sprite(new Texture("sprites/Platform1.png"));
+        grass2 = new Sprite(new Texture("sprites/Platform1.2.png"));
         grass2.setPosition(64,0);
-        grass3 = new Sprite(new Texture("sprites/Platform1.png"));
+        grass3 = new Sprite(new Texture("sprites/Platform1.2.png"));
         grass3.setPosition(128,0);
 
 
