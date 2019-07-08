@@ -3,10 +3,17 @@ package com.detone_studio.platform.Worker;
 import com.badlogic.gdx.InputProcessor;
 import com.detone_studio.platform.States.TestState;
 
+import static com.detone_studio.platform.Main.HEIGHT;
+import static com.detone_studio.platform.Main.WIDTH;
 import static com.detone_studio.platform.States.TestState.animtime;
+import static com.detone_studio.platform.States.TestState.bnt_arrow;
+import static com.detone_studio.platform.States.TestState.bnt_arrow_l;
+import static com.detone_studio.platform.States.TestState.bnt_arrow_r;
 import static com.detone_studio.platform.States.TestState.character_hero;
 
 public class MyInputProcessor implements InputProcessor {
+
+
     @Override
     public boolean keyDown(int keycode) {
         //TestState.man_y-=5;
@@ -71,11 +78,35 @@ public class MyInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        //System.out.println("TOUCHED "+screenX+" "+(HEIGHT/2-screenY));
+        if (bnt_arrow.check_click(screenX*2,(HEIGHT/2-screenY)*2)){
+            character_hero.jump();
+        };
+        if (bnt_arrow_l.check_click(screenX*2,(HEIGHT/2-screenY)*2)){
+            character_hero.go_left();
+        };
+        if (bnt_arrow_r.check_click(screenX*2,(HEIGHT/2-screenY)*2)){
+            character_hero.go_right();
+        };
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        if (bnt_arrow.check_click(screenX*2,(HEIGHT/2-screenY)*2)){
+            character_hero.jump_over();
+        };
+        //if (bnt_arrow_l.check_click(screenX*2,(HEIGHT/2-screenY)*2)){
+        //    character_hero.go_left_over();
+        //};
+        //if (bnt_arrow_r.check_click(screenX*2,(HEIGHT/2-screenY)*2)){
+         //   character_hero.go_right_over();
+        //};
+        if (character_hero.ismoving()){
+            character_hero.go_left_over();
+             character_hero.go_right_over();
+        }
+
         return false;
     }
 
