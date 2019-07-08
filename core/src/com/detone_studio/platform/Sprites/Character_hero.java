@@ -38,7 +38,7 @@ public class Character_hero extends Sprite_basic {
         //local_x=x;
         //local_y=y;
         animation_jump = new Animation(new Sprite(new Texture("atlas/jump.png")),4,1.0f);
-        animation_idle = new Animation(new Sprite(new Texture("atlas/idle_char.png")),5,1.8f);
+        animation_idle = new Animation(new Sprite(new Texture("atlas/idle_char.png")),5,0.8f);
         //sprite = new Sprite(new Texture(""));
 
     }
