@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.detone_studio.platform.GameStateManager;
 import com.detone_studio.platform.Sprites.Animation;
+import com.detone_studio.platform.Sprites.Bnt_arrow;
 import com.detone_studio.platform.Sprites.Character_hero;
 import com.detone_studio.platform.Worker.MyInputProcessor;
 
@@ -26,6 +27,10 @@ public class TestState extends State {
     public static Character_hero character_hero;
     public static Sprite health_potion;
 
+    public static Bnt_arrow bnt_arrow_l;
+    public static Bnt_arrow bnt_arrow;
+    public static Bnt_arrow bnt_arrow_r;
+
     public Rectangle rec_health_potion;
     public Rectangle rec_character_hero;
 
@@ -38,8 +43,12 @@ public class TestState extends State {
     public TestState(GameStateManager gsm) {
         super(gsm);
 
+        //camera.unproject(Gdx.input.);
 
 
+        bnt_arrow_l = new Bnt_arrow(0,0,0);
+        bnt_arrow_r = new Bnt_arrow(130,0,180);
+        bnt_arrow = new Bnt_arrow(1150,0,-90);
 
         FontRed1 = new BitmapFont();
         FontRed1.setColor(Color.RED); //Красный
@@ -123,6 +132,10 @@ public class TestState extends State {
         FontRed1.draw(sb, " FPS : "+  fps, 10, 470);
 
 
+
+        bnt_arrow.draw(sb);
+        bnt_arrow_l.draw(sb);
+        bnt_arrow_r.draw(sb);
         //animation.getFrames().getTexture();
         //img.draw(sb);
         //animation.getFrames().getTexture().;

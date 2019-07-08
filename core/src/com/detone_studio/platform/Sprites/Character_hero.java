@@ -185,4 +185,8 @@ public class Character_hero extends Sprite_basic {
     public void dispose() {
         animation_idle.dispose();
     }
+
+    public boolean ismoving() {
+        return right|left;
+    }
 }
