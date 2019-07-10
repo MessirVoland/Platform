@@ -53,6 +53,9 @@ public class Animation {
             frames.get(i).flip(true,false);
         }
     }
+    public int get_WIDTH(){
+        return frames.get(frame).getRegionWidth();
+    }
     public void next_frame(){
         frame++;
         if (frame>=frameCount){
