@@ -13,6 +13,7 @@ public class Bnt_arrow extends Sprite_basic {
         sprite = new Sprite(new Texture("non_project_tiles/arrow.png"));
         sprite.setPosition(position_x,position_y);
         sprite.rotate(rotation);
+        sprite.setAlpha(0.5f);
     }
 
     @Override

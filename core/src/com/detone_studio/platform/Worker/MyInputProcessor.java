@@ -1,6 +1,8 @@
 package com.detone_studio.platform.Worker;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector3;
 import com.detone_studio.platform.States.TestState;
 
 import static com.detone_studio.platform.Main.HEIGHT;
@@ -14,6 +16,7 @@ import static com.detone_studio.platform.States.TestState.character_hero;
 public class MyInputProcessor implements InputProcessor {
 
 
+    Vector3 touchPos = new Vector3();
     @Override
     public boolean keyDown(int keycode) {
         //TestState.man_y-=5;
@@ -78,14 +81,20 @@ public class MyInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        //System.out.println("TOUCHED "+screenX+" "+(HEIGHT/2-screenY));
-        if (bnt_arrow.check_click(screenX*2,(HEIGHT/2-screenY)*2)){
+        touchPos.set(screenX, screenY, 0);
+        TestState.camera.unproject(touchPos);
+        screenX= (int) touchPos.x;
+        screenY= (int) touchPos.y;
+
+
+        System.out.println("TOUCHED "+screenX+" "+screenY);
+        if (bnt_arrow.check_click(screenX,screenY)){
             character_hero.jump();
         };
-        if (bnt_arrow_l.check_click(screenX*2,(HEIGHT/2-screenY)*2)){
+        if (bnt_arrow_l.check_click(screenX,screenY)){
             character_hero.go_left();
         };
-        if (bnt_arrow_r.check_click(screenX*2,(HEIGHT/2-screenY)*2)){
+        if (bnt_arrow_r.check_click(screenX,screenY)){
             character_hero.go_right();
         };
         return false;
@@ -93,25 +102,31 @@ public class MyInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if (bnt_arrow.check_click(screenX*2,(HEIGHT/2-screenY)*2)){
+        touchPos.set(screenX, screenY, 0);
+        TestState.camera.unproject(touchPos);
+        screenX= (int) touchPos.x;
+        screenY= (int) touchPos.y;
+        if (bnt_arrow.check_click(screenX,screenY)){
             character_hero.jump_over();
         };
-        //if (bnt_arrow_l.check_click(screenX*2,(HEIGHT/2-screenY)*2)){
-        //    character_hero.go_left_over();
-        //};
-        //if (bnt_arrow_r.check_click(screenX*2,(HEIGHT/2-screenY)*2)){
-         //   character_hero.go_right_over();
-        //};
-        if (character_hero.ismoving()){
+        if (bnt_arrow_l.check_click(screenX,screenY)){
+           character_hero.go_left_over();
+        };
+        if (bnt_arrow_r.check_click(screenX,screenY)){
+            character_hero.go_right_over();
+        };
+
+        /*if (character_hero.ismoving()){
             character_hero.go_left_over();
              character_hero.go_right_over();
-        }
+        }*/
 
         return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+
         return false;
     }
 

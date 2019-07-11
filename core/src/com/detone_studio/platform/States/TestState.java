@@ -45,27 +45,29 @@ public class TestState extends State {
 
         //camera.unproject(Gdx.input.);
 
+        camera.setToOrtho(false, 1280 , 720 );
 
         bnt_arrow_l = new Bnt_arrow(0,0,0);
         bnt_arrow_r = new Bnt_arrow(130,0,180);
         bnt_arrow = new Bnt_arrow(1150,0,-90);
 
+
         FontRed1 = new BitmapFont();
         FontRed1.setColor(Color.RED); //Красный
         isOverlaping =false;
         health_potion = new Sprite(new Texture("non_project_tiles/heal_potion_2.png"));
-        health_potion.setPosition(320,64);
+        health_potion.setPosition(390,464);
 
         rec_health_potion= new Rectangle(health_potion.getX(),health_potion.getY(),health_potion.getWidth(),health_potion.getHeight());
 
 
         back_ground=new Texture("sprites/Image2.png");
         grass = new Sprite(new Texture("sprites/Platform1.2.png"));
-        grass.setPosition(0,0);
+        grass.setPosition(380,0);
         grass2 = new Sprite(new Texture("sprites/Platform1.2.png"));
-        grass2.setPosition(64,0);
+        grass2.setPosition(380,400);
         grass3 = new Sprite(new Texture("sprites/Platform1.2.png"));
-        grass3.setPosition(128,0);
+        grass3.setPosition(200,200);
 
 
 
@@ -75,15 +77,16 @@ public class TestState extends State {
         character_hero = new Character_hero(man_x,man_y);
         rec_character_hero=new Rectangle(character_hero.GetX(),character_hero.GetY(),character_hero.GetWidth(),character_hero.GetHeight());
         //img.setPosition(man_x,man_y);
+
         inputProcessor = new MyInputProcessor();
         Gdx.input.setInputProcessor(inputProcessor);
     }
 
     @Override
     protected void handleInput() {
-        if(Gdx.input.isTouched()) {
+        /*if(Gdx.input.isTouched()) {
             man_x+=5;
-        }
+        }*/
     }
 
     @Override
@@ -91,12 +94,12 @@ public class TestState extends State {
         handleInput();
         //img.setPosition(man_x,man_y);
         character_hero.update(dt);
-        rec_character_hero.x=character_hero.GetX();
-        rec_character_hero.y=character_hero.GetY();
+        rec_character_hero.x=character_hero.getBoundRectangle().x;
+        rec_character_hero.y=character_hero.getBoundRectangle().y;
 
         if (!isOverlaping) {
 
-            isOverlaping = health_potion.getBoundingRectangle().overlaps(rec_character_hero);
+            isOverlaping = health_potion.getBoundingRectangle().overlaps(character_hero.getBoundRectangle());
             if (isOverlaping){
                 System.out.println("Heal potion taken");
             }
