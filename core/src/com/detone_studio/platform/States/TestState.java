@@ -51,6 +51,7 @@ public class TestState extends State {
         bnt_arrow_r = new Bnt_arrow(130,0,180);
         bnt_arrow = new Bnt_arrow(1150,0,-90);
 
+
         FontRed1 = new BitmapFont();
         FontRed1.setColor(Color.RED); //Красный
         isOverlaping =false;
@@ -62,7 +63,7 @@ public class TestState extends State {
 
         back_ground=new Texture("sprites/Image2.png");
         grass = new Sprite(new Texture("sprites/Platform1.2.png"));
-        grass.setPosition(20,0);
+        grass.setPosition(380,0);
         grass2 = new Sprite(new Texture("sprites/Platform1.2.png"));
         grass2.setPosition(380,400);
         grass3 = new Sprite(new Texture("sprites/Platform1.2.png"));
@@ -93,12 +94,12 @@ public class TestState extends State {
         handleInput();
         //img.setPosition(man_x,man_y);
         character_hero.update(dt);
-        rec_character_hero.x=character_hero.GetX();
-        rec_character_hero.y=character_hero.GetY();
+        rec_character_hero.x=character_hero.getBoundRectangle().x;
+        rec_character_hero.y=character_hero.getBoundRectangle().y;
 
         if (!isOverlaping) {
 
-            isOverlaping = health_potion.getBoundingRectangle().overlaps(rec_character_hero);
+            isOverlaping = health_potion.getBoundingRectangle().overlaps(character_hero.getBoundRectangle());
             if (isOverlaping){
                 System.out.println("Heal potion taken");
             }

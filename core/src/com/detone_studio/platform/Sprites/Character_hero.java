@@ -3,7 +3,9 @@ package com.detone_studio.platform.Sprites;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polyline;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
@@ -26,14 +28,24 @@ public class Character_hero extends Sprite_basic {
 
     private boolean up,down,high;
 
-    int groud_pos;
-
+    int groud_pos,speed_move,speed_max,speed_brake;
+    private double slower,haster;
     public Character_hero(int x, int y) {
         //super(x, y);
 
-
-
         groud_pos=64;
+        //максимальная скорость ускорения
+        speed_move=10;
+        //максимальная скорость торможения
+        speed_brake=20;
+        //максимальная боковая скорость
+        speed_max=300;
+        //скорость торможения
+        slower=0;
+        //скорость ускорения
+        haster=0;
+
+
         //прыжок
         up=false;
         down=false;
@@ -46,13 +58,14 @@ public class Character_hero extends Sprite_basic {
         left=false;
         position = new Vector3(x, y, 0);
 
-        speed_grav=-10;
+        speed_grav=-20;
         velosity = new Vector3(0, speed_grav, 0);
 
         //local_x=x;
         //local_y=y;
-        animation_jump = new Animation(new Sprite(new Texture("atlas/jump.png")),4,1.0f);
-        animation_idle = new Animation(new Sprite(new Texture("atlas/idle_char.png")),5,0.8f);
+        new TextureRegion();
+        animation_jump = new Animation(new TextureRegion(new Texture("atlas/jump.png")),4,1.0f);
+        animation_idle = new Animation(new TextureRegion(new Texture("atlas/idle_char.png")),5,0.8f);
         //sprite = new Sprite(new Texture(""));
 
         float[] vertices={
@@ -67,7 +80,7 @@ public class Character_hero extends Sprite_basic {
         if (!isJumping) {
            // up=true;
             isJumping=true;
-            velosity.set(velosity.x, 500, 0);
+            velosity.set(velosity.x, 800, 0);
         }
     }
     public void jump_over(){
@@ -124,6 +137,7 @@ public class Character_hero extends Sprite_basic {
 
         if (position.y<groud_pos){
             position.y=groud_pos;
+            System.out.println("Origin + " +animation_idle.getFramesS().getBoundingRectangle().getY());
             isJumping=false;
         }
 
@@ -153,37 +167,48 @@ public class Character_hero extends Sprite_basic {
 
         }
 
-        if (velosity.y>-500){
+        //slower=(velosity.x*speed_move/speed_max)-5;
+        haster= -(speed_move*((Math.abs(velosity.x)-speed_max)/speed_max)-5);
+        //slower= -(speed_move*((velosity.x-speed_max)/speed_max)-5);
+        //−400x−10y+4000=0
+
+        //−10x−400y+4000=0
+
+        slower=-((speed_move*Math.abs(velosity.x)-(speed_max+100)*speed_brake)/speed_max);
+
+
+
+
+
+        if (velosity.y>-600){
             velosity.y+=speed_grav;
         }
 
         if (right){
-            velosity.x+=5;
-            if (velosity.x<0){
-                velosity.x+=5;
-            }
+            velosity.x+=speed_move;
+            if (velosity.x<0){ velosity.x+=haster;            }
         }
         else if (left){
-            velosity.x-=5;
-            if (velosity.x>0){
-                velosity.x-=5;
-            }
+            velosity.x-=speed_move;
+            if (velosity.x>0){ velosity.x-=haster;            }
         }
         else
             {
-                if (velosity.x>5){
-                    velosity.x-=5;
-                }else if (velosity.x<-5){
-                    velosity.x+=5;
+                //System.out.println("Veloc :"+velosity.x);
+                //System.out.println("slower :"+slower);
+                if (velosity.x>10){
+                    velosity.x-=slower;
+                }else if (velosity.x<-10){
+                    velosity.x+=slower;
                 }else{
                     velosity.x=0;
                 }
         }
-        if (velosity.x>200){
-            velosity.x=200;
+        if (velosity.x>speed_max){
+            velosity.x=speed_max;
         }
-        if (velosity.x<-200){
-            velosity.x=-200;
+        if (velosity.x<-speed_max){
+            velosity.x=-speed_max;
         }
 
 
@@ -191,18 +216,26 @@ public class Character_hero extends Sprite_basic {
         polyline_set_down.y=position.y-32;
 
         check_groud();
+        //animation_idle.getFramesS().setP
+        animation_idle.setPosition(position);
+        animation_jump.setPosition(position);
     }
 
     @Override
     public void draw(Batch sb) {
 
         if (isJumping){
-            sb.draw(animation_jump.getFrames(),position.x-25,position.y-25);
+            //sb.draw(animation_jump.getFramesS(),position.x-25,position.y-25);
+            animation_jump.getFramesS().draw(sb);
         }else {
-            sb.draw(animation_idle.getFrames(), position.x, position.y);
+            animation_idle.getFramesS().draw(sb);
+            //sb.draw(animation_idle.getFrames(), position.x, position.y);
         }
     }
 
+    public Rectangle getBoundRectangle(){
+        return animation_idle.getFramesS().getBoundingRectangle();
+    }
 
     @Override
     public void dispose() {
