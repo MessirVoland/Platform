@@ -18,8 +18,13 @@ public class Animation {
     private float currentFrameTime;
     private int frameCount;
     private int frame;
+    private float scale;
+    TextureRegion textureRegion;
 
     public Animation(TextureRegion region, int frameCount, float cycleTime) {
+
+
+        scale=-0.5f;
         frames = new Array<TextureRegion>();
         frames2 = new Array<Sprite>();
         int frameWidth=region.getRegionWidth()/frameCount;
@@ -29,11 +34,11 @@ public class Animation {
             frames2.add(new Sprite(region,i*frameWidth,0,frameWidth,region.getRegionHeight()));
         }
         for (int i=0;i<frameCount;i++){
-            frames2.get(i).scale(-0.5f);
+            frames2.get(i).scale(scale);
             //frames2.get(i).setBounds(frames2.get(i).);
             //frames2.get(i).setBounds(frames2.get(i).getWidth()-frames2.get(i).getWidth()/2,0,frames2.get(i).getWidth(),frames2.get(i).getHeight());
             //frames2.add(new Sprite(region,i*frameWidth,0,frameWidth,region.getRegionHeight()));
-            frames2.get(i).getBoundingRectangle().set(frames2.get(i).getWidth()-frames2.get(i).getWidth()/2,0,frames2.get(i).getWidth(),frames2.get(i).getHeight());
+            //frames2.get(i).getBoundingRectangle().set(frames2.get(i).getWidth()-frames2.get(i).getWidth()/2,0,frames2.get(i).getWidth(),frames2.get(i).getHeight());
         }
         this.frameCount=frameCount;
         maxFrameTime=cycleTime / frameCount;
@@ -78,7 +83,7 @@ public class Animation {
     }
     public void setPosition(Vector3 pos){
         //frames2.get(frame).setPosition(pos.x,pos.y);
-        frames2.get(frame).setOrigin(pos.x,pos.y);
+        frames2.get(frame).setPosition(pos.x,pos.y);
     }
     public TextureRegion getFrames() {
         return frames.get(frame);

@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import static com.detone_studio.platform.States.TestState.character_hero;
 import static com.detone_studio.platform.States.TestState.grass;
 import static com.detone_studio.platform.States.TestState.grass2;
 import static com.detone_studio.platform.States.TestState.grass3;
@@ -22,11 +23,12 @@ public class Character_hero extends Sprite_basic {
     private int speed_grav;
 
 
-    private Vector2 polyline_set_down;
+    //private Vector2 polyline_set_down;
 
     private boolean right,left,look_right,isJumping;
 
     private boolean up,down,high;
+    private Rectangle rect_down;
 
     int groud_pos,speed_move,speed_max,speed_brake;
     private double slower,haster;
@@ -73,7 +75,11 @@ public class Character_hero extends Sprite_basic {
                 position.x+(animation_idle.get_WIDTH()/2),position.y-100
         };
 
-        polyline_set_down=new Vector2(position.x+(animation_idle.get_WIDTH()/2),position.y-32);
+        rect_down= new Rectangle();
+        rect_down.setSize(animation_idle.get_WIDTH()/2,1);
+        rect_down.setPosition(position.x+animation_idle.get_WIDTH()/4,position.y-1);
+
+        //polyline_set_down=new Vector2(position.x+(animation_idle.get_WIDTH()/2),position.y-5);
     }
 
     public void jump(){
@@ -130,6 +136,8 @@ public class Character_hero extends Sprite_basic {
 
     @Override
     public void update(float dt) {
+
+        rect_down.setPosition(position.x+animation_idle.get_WIDTH()/4,position.y-1);
         animation_idle.update(dt);
         velosity.scl(dt);
         position.add(velosity.x, velosity.y, 0);
@@ -137,7 +145,10 @@ public class Character_hero extends Sprite_basic {
 
         if (position.y<groud_pos){
             position.y=groud_pos;
-            System.out.println("Origin + " +animation_idle.getFramesS().getBoundingRectangle().getY());
+            //System.out.println("Origin + " +animation_idle.getFramesS().getBoundingRectangle().getY());
+            //System.out.println("Origin + " +animation_idle.getFramesS().getY());
+            //System.out.println("Height + " +animation_idle.getFramesS().getHeight());
+
             isJumping=false;
         }
 
@@ -212,8 +223,8 @@ public class Character_hero extends Sprite_basic {
         }
 
 
-        polyline_set_down.x=position.x+(animation_idle.get_WIDTH()/2);
-        polyline_set_down.y=position.y-32;
+        //polyline_set_down.x=position.x+(animation_idle.get_WIDTH()/2);
+        //polyline_set_down.y=position.y-5;
 
         check_groud();
         //animation_idle.getFramesS().setP
@@ -226,9 +237,14 @@ public class Character_hero extends Sprite_basic {
 
         if (isJumping){
             //sb.draw(animation_jump.getFramesS(),position.x-25,position.y-25);
+            animation_jump.getFramesS().translateY(-(animation_jump.getFramesS().getHeight()-animation_jump.getFramesS().getOriginY())/2);
             animation_jump.getFramesS().draw(sb);
+            animation_jump.getFramesS().translateY(+(animation_jump.getFramesS().getHeight()-animation_jump.getFramesS().getOriginY())/2);
         }else {
+            animation_idle.getFramesS().translateY(-(animation_idle.getFramesS().getHeight()-animation_idle.getFramesS().getOriginY())/2);
             animation_idle.getFramesS().draw(sb);
+            animation_idle.getFramesS().translateY(+(animation_idle.getFramesS().getHeight()-animation_idle.getFramesS().getOriginY())/2);
+
             //sb.draw(animation_idle.getFrames(), position.x, position.y);
         }
     }
@@ -246,13 +262,14 @@ public class Character_hero extends Sprite_basic {
         return right|left;
     }
     private void check_groud(){
-        if (grass.getBoundingRectangle().contains(polyline_set_down)){
+        if (grass.getBoundingRectangle().overlaps(rect_down)){
+            //System.out.println("Height Orig + " +rect_down.y);
             groud_pos=(int)(grass.getBoundingRectangle().y+grass.getBoundingRectangle().height);
         }else
-        if (grass3.getBoundingRectangle().contains(polyline_set_down)){
+        if (grass3.getBoundingRectangle().overlaps(rect_down)){
             groud_pos=(int)(grass3.getBoundingRectangle().y+grass3.getBoundingRectangle().height);
         }else
-        if (grass2.getBoundingRectangle().contains(polyline_set_down)){
+        if (grass2.getBoundingRectangle().overlaps(rect_down)){
             groud_pos=(int)(grass2.getBoundingRectangle().y+grass2.getBoundingRectangle().height);
         } else
             groud_pos=0;
