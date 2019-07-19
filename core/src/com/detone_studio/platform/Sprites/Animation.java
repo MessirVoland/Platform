@@ -75,6 +75,9 @@ public class Animation {
     public int get_WIDTH(){
         return frames2.get(frame).getRegionWidth();
     }
+    public int get_HEIGHT(){
+        return frames2.get(frame).getRegionHeight();
+    }
     public void next_frame(){
         frame++;
         if (frame>=frameCount){

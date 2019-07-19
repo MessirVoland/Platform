@@ -25,10 +25,10 @@ public class Character_hero extends Sprite_basic {
 
     //private Vector2 polyline_set_down;
 
-    private boolean right,left,look_right,isJumping;
+    private boolean right,left,look_right,isJumping,isFallOut;
 
     private boolean up,down,high;
-    private Rectangle rect_down;
+    private Rectangle rect_down,rect_char;
 
     int groud_pos,speed_move,speed_max,speed_brake;
     private double slower,haster;
@@ -53,6 +53,8 @@ public class Character_hero extends Sprite_basic {
         down=false;
         high=false;
 
+        isFallOut=false;
+
         //Позиция и вектор ускорения
         look_right=true;
         isJumping=false;
@@ -75,9 +77,13 @@ public class Character_hero extends Sprite_basic {
                 position.x+(animation_idle.get_WIDTH()/2),position.y-100
         };
 
+        rect_char=new Rectangle();
+        rect_char.setSize(animation_idle.get_WIDTH()/2,animation_idle.get_HEIGHT()/2);
+        rect_char.setPosition(position.x+animation_idle.get_WIDTH()/4,position.y);
+
         rect_down= new Rectangle();
-        rect_down.setSize(animation_idle.get_WIDTH()/2,1);
-        rect_down.setPosition(position.x+animation_idle.get_WIDTH()/4,position.y-1);
+        rect_down.setSize(animation_idle.get_WIDTH()/3,1);
+        rect_down.setPosition(position.x+animation_idle.get_WIDTH()/4+10,position.y-1);
 
         //polyline_set_down=new Vector2(position.x+(animation_idle.get_WIDTH()/2),position.y-5);
     }
@@ -137,7 +143,8 @@ public class Character_hero extends Sprite_basic {
     @Override
     public void update(float dt) {
 
-        rect_down.setPosition(position.x+animation_idle.get_WIDTH()/4,position.y-1);
+        rect_char.setPosition(position.x+animation_idle.get_WIDTH()/4,position.y);
+        rect_down.setPosition(position.x+animation_idle.get_WIDTH()/4+10,position.y-1);
         animation_idle.update(dt);
         velosity.scl(dt);
         position.add(velosity.x, velosity.y, 0);
@@ -148,8 +155,9 @@ public class Character_hero extends Sprite_basic {
             //System.out.println("Origin + " +animation_idle.getFramesS().getBoundingRectangle().getY());
             //System.out.println("Origin + " +animation_idle.getFramesS().getY());
             //System.out.println("Height + " +animation_idle.getFramesS().getHeight());
-
-            isJumping=false;
+            if (velosity.y<0) {
+                isJumping = false;
+            }
         }
 
         if (isJumping){
@@ -226,7 +234,10 @@ public class Character_hero extends Sprite_basic {
         //polyline_set_down.x=position.x+(animation_idle.get_WIDTH()/2);
         //polyline_set_down.y=position.y-5;
 
-        check_groud();
+        if (!check_groud()){
+            isJumping=true;
+            animation_jump.setFrame(2);
+        };
         //animation_idle.getFramesS().setP
         animation_idle.setPosition(position);
         animation_jump.setPosition(position);
@@ -250,7 +261,7 @@ public class Character_hero extends Sprite_basic {
     }
 
     public Rectangle getBoundRectangle(){
-        return animation_idle.getFramesS().getBoundingRectangle();
+        return rect_char;
     }
 
     @Override
@@ -261,18 +272,28 @@ public class Character_hero extends Sprite_basic {
     public boolean ismoving() {
         return right|left;
     }
-    private void check_groud(){
+    private boolean check_groud(){
         if (grass.getBoundingRectangle().overlaps(rect_down)){
             //System.out.println("Height Orig + " +rect_down.y);
             groud_pos=(int)(grass.getBoundingRectangle().y+grass.getBoundingRectangle().height);
+            return true;
         }else
         if (grass3.getBoundingRectangle().overlaps(rect_down)){
             groud_pos=(int)(grass3.getBoundingRectangle().y+grass3.getBoundingRectangle().height);
+            return true;
         }else
         if (grass2.getBoundingRectangle().overlaps(rect_down)){
             groud_pos=(int)(grass2.getBoundingRectangle().y+grass2.getBoundingRectangle().height);
-        } else
-            groud_pos=0;
+            return true;
+        } else {
+            if ((!isJumping) & (position.y > 5)) {
+                groud_pos = 0;
+                return false;
+            }
+
+            groud_pos = 0;
+            return true;
+        }
 
     }
 
