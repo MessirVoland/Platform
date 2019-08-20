@@ -19,7 +19,7 @@ import com.detone_studio.platform.Worker.MyInputProcessor;
 
 
 public class TestState extends State {
-    public static Sprite img,grass,grass2,grass3;
+    public static Sprite img,grass,grass2,grass3,tree;
     InputProcessor inputProcessor;
     boolean isOverlaping;
     public static int man_x,man_y;
@@ -69,6 +69,8 @@ public class TestState extends State {
         grass3 = new Sprite(new Texture("sprites/Platform1.2.png"));
         grass3.setPosition(200,200);
 
+        tree = new Sprite(new Texture("sprites/sprite_tree.png"));
+        tree.setPosition(400,0);
 
 
         img = new Sprite(new Texture("sprites/static_1.png"));
@@ -112,6 +114,7 @@ public class TestState extends State {
         sb.begin();
         sb.draw(back_ground,0,0);
         sb.draw(back_ground,480,0);
+        tree.draw(sb);
         grass.draw(sb);
         grass2.draw(sb);
         grass3.draw(sb);

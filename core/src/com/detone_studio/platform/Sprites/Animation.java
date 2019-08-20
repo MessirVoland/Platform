@@ -75,6 +75,9 @@ public class Animation {
     public int get_WIDTH(){
         return frames2.get(frame).getRegionWidth();
     }
+    public int get_HEIGHT(){
+        return frames2.get(frame).getRegionHeight();
+    }
     public void next_frame(){
         frame++;
         if (frame>=frameCount){
@@ -85,6 +88,12 @@ public class Animation {
         //frames2.get(frame).setPosition(pos.x,pos.y);
         frames2.get(frame).setPosition(pos.x,pos.y);
     }
+    public void update_frame_time(float new_time){
+        maxFrameTime=new_time / frameCount;
+    }
+
+
+
     public TextureRegion getFrames() {
         return frames.get(frame);
     }
