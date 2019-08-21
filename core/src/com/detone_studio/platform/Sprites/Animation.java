@@ -88,6 +88,12 @@ public class Animation {
         //frames2.get(frame).setPosition(pos.x,pos.y);
         frames2.get(frame).setPosition(pos.x,pos.y);
     }
+    public void update_frame_time(float new_time){
+        maxFrameTime=new_time / frameCount;
+    }
+
+
+
     public TextureRegion getFrames() {
         return frames.get(frame);
     }
