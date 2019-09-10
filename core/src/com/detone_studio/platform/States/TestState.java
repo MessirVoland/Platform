@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -50,8 +51,14 @@ public class TestState extends State {
 
     public static Vector2 savedPosition;
 
+    public ParticleEffect particleEffect;
+
     public TestState(GameStateManager gsm) {
         super(gsm);
+
+        particleEffect = new ParticleEffect();
+        particleEffect.load(Gdx.files.internal("parts/part.p"), Gdx.files.internal("parts"));
+
 
 
         ON_LEVEL=true;
@@ -76,6 +83,7 @@ public class TestState extends State {
         isOverlaping =false;
         health_potion = new Sprite(new Texture("non_project_tiles/heal_potion_2.png"));
         health_potion.setPosition(390,464);
+        particleEffect.setPosition(390, 464);
 
         rec_health_potion= new Rectangle(health_potion.getX(),health_potion.getY(),health_potion.getWidth(),health_potion.getHeight());
 
@@ -121,6 +129,7 @@ public class TestState extends State {
     @Override
     public void update(float dt) {
         if (ON_LEVEL) {
+            particleEffect.update(dt);
             handleInput();
             camera.position.set(character_hero.GetX() + 100, character_hero.GetY() + 100, 0);
             //camera.update();
@@ -134,6 +143,7 @@ public class TestState extends State {
                 isOverlaping = health_potion.getBoundingRectangle().overlaps(character_hero.getBoundRectangle());
                 if (isOverlaping) {
                     System.out.println("Heal potion taken");
+                    particleEffect.start();
                 }
             }
 
@@ -163,6 +173,7 @@ public class TestState extends State {
             character_hero.draw(sb);
 
 
+
             int fps = Gdx.graphics.getFramesPerSecond();
             if (fps >= 45) {
                 // 45 or more FPS show up in green
@@ -177,11 +188,14 @@ public class TestState extends State {
             FontRed1.draw(sb, " FPS : " + fps, 10, 470);
 
 
+            particleEffect.draw(sb);
+
             sb.setProjectionMatrix(static_camera.combined);
 
             bnt_arrow.draw(sb);
             bnt_arrow_l.draw(sb);
             bnt_arrow_r.draw(sb);
+
             //animation.getFrames().getTexture();
             //img.draw(sb);
             //animation.getFrames().getTexture().;
