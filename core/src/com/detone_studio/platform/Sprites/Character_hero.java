@@ -17,6 +17,8 @@ import static com.detone_studio.platform.States.TestState.grass;
 import static com.detone_studio.platform.States.TestState.grass2;
 import static com.detone_studio.platform.States.TestState.grass3;
 import static com.detone_studio.platform.States.TestState.home;
+import static com.detone_studio.platform.States.TestState.shaderProgram;
+import static com.detone_studio.platform.States.TestState.shockWave;
 
 public class Character_hero extends Sprite_basic {
 
@@ -98,6 +100,7 @@ public class Character_hero extends Sprite_basic {
     public void jump(){
 
         if (ON_LEVEL){
+            shockWave.begin();
             //Прыжки вне дома
             if (home.getBoundingRectangle().overlaps(character_hero.getBoundRectangle())) {
                 System.out.println("Home overlaps jump");
@@ -284,17 +287,20 @@ public class Character_hero extends Sprite_basic {
     public void draw(Batch sb) {
 
         if (isJumping){
+            shaderProgram.setUniformf("hard_light",0.5f);
             //sb.draw(animation_jump.getFramesS(),position.x-25,position.y-25);
             animation_jump.getFramesS().translateY(-(animation_jump.getFramesS().getHeight()-animation_jump.getFramesS().getOriginY())/2);
             animation_jump.getFramesS().draw(sb);
             animation_jump.getFramesS().translateY(+(animation_jump.getFramesS().getHeight()-animation_jump.getFramesS().getOriginY())/2);
         }else {
             if(stand) {
+                shaderProgram.setUniformf("hard_light",1.0f);
                 animation_idle.getFramesS().translateY(-(animation_idle.getFramesS().getHeight() - animation_idle.getFramesS().getOriginY()) / 2);
                 animation_idle.getFramesS().draw(sb);
                 animation_idle.getFramesS().translateY(+(animation_idle.getFramesS().getHeight() - animation_idle.getFramesS().getOriginY()) / 2);
             }else
             {
+                shaderProgram.setUniformf("hard_light",1.5f);
                 animation_walk.getFramesS().translateY(-(animation_walk.getFramesS().getHeight() - animation_walk.getFramesS().getOriginY()) / 2);
                 animation_walk.getFramesS().draw(sb);
                 animation_walk.getFramesS().translateY(+(animation_walk.getFramesS().getHeight() - animation_walk.getFramesS().getOriginY()) / 2);

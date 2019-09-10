@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
@@ -53,17 +55,31 @@ public class TestState extends State {
     public static Vector2 savedPosition;
 
     public ParticleEffect particleEffect;
-    ShaderProgram shaderProgram;
+    public static ShaderProgram shaderProgram;
+    public static ShaderProgram shockWave;
     public boolean start_once=true;
+
+    private FrameBuffer fbo;
+    public float time=0;
 
 
     public TestState(GameStateManager gsm) {
         super(gsm);
 
+
+
         particleEffect = new ParticleEffect();
         particleEffect.load(Gdx.files.internal("parts/part.p"), Gdx.files.internal("parts"));
 
         ShaderProgram.pedantic = false;
+
+        shockWave = new ShaderProgram(Gdx.files.internal("shaders/ShockWave.vert.glsl"),Gdx.files.internal("shaders/ShockWave.frag.glsl"));
+        if (!shockWave.isCompiled()) {
+            System.err.println(shockWave.getLog());
+            System.exit(0);
+        }
+
+
         shaderProgram=new ShaderProgram(Gdx.files.internal("shaders/default.vert"),Gdx.files.internal("shaders/default.frag"));
 
         if (!shaderProgram.isCompiled()) {
@@ -130,6 +146,7 @@ public class TestState extends State {
         inputProcessor = new MyInputProcessor();
         Gdx.input.setInputProcessor(inputProcessor);
         savedPosition = new Vector2();
+        savedPosition.set(10,10);
     }
 
     @Override
@@ -143,6 +160,14 @@ public class TestState extends State {
     public void update(float dt) {
         if (ON_LEVEL) {
             particleEffect.update(dt);
+
+shockWave.setUniformf("time", dt);
+
+            time+=dt;
+            if(time>1){
+                time=0;
+            }
+
             handleInput();
             camera.position.set(character_hero.GetX() + 100, character_hero.GetY() + 100, 0);
             //camera.update();
@@ -157,6 +182,7 @@ public class TestState extends State {
                 if (isOverlaping) {
                     System.out.println("Heal potion taken");
 
+                    //shockWave.setUniformf("center",savedPosition);
                     particleEffect.start();
                 }
             }
@@ -174,6 +200,14 @@ public class TestState extends State {
             matrix4 = sb.getProjectionMatrix();
             sb.setProjectionMatrix(camera.combined);
 
+
+            //sb.setShader(shockWave);
+            //shockWave.setUniformf("center",savedPosition );
+            //shockWave.setUniformf("time", time);
+
+
+
+
             sb.draw(back_ground, 0, 0);
             sb.draw(back_ground, 480, 0);
             tree.draw(sb);
@@ -188,14 +222,20 @@ public class TestState extends State {
             {
                 if (particleEffect.isComplete()) {
                     if (start_once) {
-                        sb.setShader(shaderProgram);
+
                         start_once = !start_once;
                     }
                 }
             }
+
+            if (!start_once) {
+                sb.setShader(shaderProgram);
+
+
+
+            }
             character_hero.draw(sb);
-
-
+            sb.setShader(null);
 
             int fps = Gdx.graphics.getFramesPerSecond();
             if (fps >= 45) {
@@ -218,6 +258,8 @@ public class TestState extends State {
             bnt_arrow.draw(sb);
             bnt_arrow_l.draw(sb);
             bnt_arrow_r.draw(sb);
+            //fbo = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(),Gdx.graphics.getHeight(), true);
+
 
             //animation.getFrames().getTexture();
             //img.draw(sb);
