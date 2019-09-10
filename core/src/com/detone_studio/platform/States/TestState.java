@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.detone_studio.platform.GameStateManager;
 import com.detone_studio.platform.Sprites.Animation;
@@ -19,7 +20,7 @@ import com.detone_studio.platform.Worker.MyInputProcessor;
 
 
 public class TestState extends State {
-    public static Sprite img,grass,grass2,grass3,tree;
+    public static Sprite img,grass,grass2,grass3,tree,home;
     InputProcessor inputProcessor;
     boolean isOverlaping;
     public static int man_x,man_y;
@@ -34,6 +35,8 @@ public class TestState extends State {
     public Rectangle rec_health_potion;
     public Rectangle rec_character_hero;
 
+    Matrix4 matrix4;
+    public static OrthographicCamera static_camera;
 
     private Texture back_ground;
 
@@ -45,7 +48,12 @@ public class TestState extends State {
 
         //camera.unproject(Gdx.input.);
 
-        camera.setToOrtho(false, 1280 , 720 );
+        static_camera = new OrthographicCamera();
+        static_camera.setToOrtho(false,1280,720);
+
+        //camera.setToOrtho(false, 1280 , 720 );
+        camera.setToOrtho(false,640,360);
+
 
         bnt_arrow_l = new Bnt_arrow(0,0,0);
         bnt_arrow_r = new Bnt_arrow(130,0,180);
@@ -62,6 +70,10 @@ public class TestState extends State {
 
 
         back_ground=new Texture("sprites/Image2.png");
+
+        home = new Sprite(new Texture("sprites/Home.png"));
+        home.setPosition(1500,200);
+        home.scale(1.5f);
         grass = new Sprite(new Texture("sprites/Platform1.2.png"));
         grass.setPosition(380,0);
         grass2 = new Sprite(new Texture("sprites/Platform1.2.png"));
@@ -80,6 +92,9 @@ public class TestState extends State {
         rec_character_hero=new Rectangle(character_hero.GetX(),character_hero.GetY(),character_hero.GetWidth(),character_hero.GetHeight());
         //img.setPosition(man_x,man_y);
 
+        camera.position.set(character_hero.GetX()+300,character_hero.GetY()+100,0);
+
+
         inputProcessor = new MyInputProcessor();
         Gdx.input.setInputProcessor(inputProcessor);
     }
@@ -94,6 +109,8 @@ public class TestState extends State {
     @Override
     public void update(float dt) {
         handleInput();
+        camera.position.set(character_hero.GetX()+100,character_hero.GetY()+100,0);
+        //camera.update();
         //img.setPosition(man_x,man_y);
         character_hero.update(dt);
         rec_character_hero.x=character_hero.getBoundRectangle().x;
@@ -112,9 +129,15 @@ public class TestState extends State {
     public void render(SpriteBatch sb) {
         //sb.setProjectionMatrix(camera.combined);
         sb.begin();
+        camera.update();
+        static_camera.update();
+        matrix4=sb.getProjectionMatrix();
+		sb.setProjectionMatrix(camera.combined);
+
         sb.draw(back_ground,0,0);
         sb.draw(back_ground,480,0);
         tree.draw(sb);
+        home.draw(sb);
         grass.draw(sb);
         grass2.draw(sb);
         grass3.draw(sb);
@@ -138,6 +161,8 @@ public class TestState extends State {
         FontRed1.draw(sb, " FPS : "+  fps, 10, 470);
 
 
+
+        sb.setProjectionMatrix(static_camera.combined);
 
         bnt_arrow.draw(sb);
         bnt_arrow_l.draw(sb);

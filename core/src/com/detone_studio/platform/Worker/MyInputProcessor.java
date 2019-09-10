@@ -82,7 +82,7 @@ public class MyInputProcessor implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         touchPos.set(screenX, screenY, 0);
-        TestState.camera.unproject(touchPos);
+        TestState.static_camera.unproject(touchPos);
         screenX= (int) touchPos.x;
         screenY= (int) touchPos.y;
 
