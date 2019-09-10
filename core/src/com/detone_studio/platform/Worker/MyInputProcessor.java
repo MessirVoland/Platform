@@ -12,6 +12,7 @@ import static com.detone_studio.platform.States.TestState.bnt_arrow;
 import static com.detone_studio.platform.States.TestState.bnt_arrow_l;
 import static com.detone_studio.platform.States.TestState.bnt_arrow_r;
 import static com.detone_studio.platform.States.TestState.character_hero;
+import static com.detone_studio.platform.States.TestState.home;
 
 public class MyInputProcessor implements InputProcessor {
 
@@ -106,23 +107,28 @@ public class MyInputProcessor implements InputProcessor {
         TestState.camera.unproject(touchPos);
         screenX= (int) touchPos.x;
         screenY= (int) touchPos.y;
-        if (bnt_arrow.check_click(screenX,screenY)){
-            character_hero.jump_over();
-        };
-        if (bnt_arrow_l.check_click(screenX,screenY)){
-           character_hero.go_left_over();
-        };
-        if (bnt_arrow_r.check_click(screenX,screenY)){
-            character_hero.go_right_over();
-        };
+
+
+            if (bnt_arrow.check_click(screenX, screenY)) {
+                character_hero.jump_over();
+            }
+            ;
+            if (bnt_arrow_l.check_click(screenX, screenY)) {
+                character_hero.go_left_over();
+            }
+            ;
+            if (bnt_arrow_r.check_click(screenX, screenY)) {
+                character_hero.go_right_over();
+            }
+            ;
 
         /*if (character_hero.ismoving()){
             character_hero.go_left_over();
              character_hero.go_right_over();
         }*/
 
-        return false;
-    }
+            return false;
+        }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {

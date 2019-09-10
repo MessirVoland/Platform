@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.detone_studio.platform.GameStateManager;
 import com.detone_studio.platform.Sprites.Animation;
 import com.detone_studio.platform.Sprites.Bnt_arrow;
@@ -36,15 +38,23 @@ public class TestState extends State {
     public Rectangle rec_character_hero;
 
     Matrix4 matrix4;
-    public static OrthographicCamera static_camera;
+
+    public static boolean ON_LEVEL;
+    public static OrthographicCamera static_camera,camera;
 
     private Texture back_ground;
 
 
     public static float animtime;
 
+
+    public static Vector2 savedPosition;
+
     public TestState(GameStateManager gsm) {
         super(gsm);
+
+
+        ON_LEVEL=true;
 
         //camera.unproject(Gdx.input.);
 
@@ -52,6 +62,7 @@ public class TestState extends State {
         static_camera.setToOrtho(false,1280,720);
 
         //camera.setToOrtho(false, 1280 , 720 );
+        camera = new OrthographicCamera();
         camera.setToOrtho(false,640,360);
 
 
@@ -97,6 +108,7 @@ public class TestState extends State {
 
         inputProcessor = new MyInputProcessor();
         Gdx.input.setInputProcessor(inputProcessor);
+        savedPosition = new Vector2();
     }
 
     @Override
@@ -108,69 +120,79 @@ public class TestState extends State {
 
     @Override
     public void update(float dt) {
-        handleInput();
-        camera.position.set(character_hero.GetX()+100,character_hero.GetY()+100,0);
-        //camera.update();
-        //img.setPosition(man_x,man_y);
-        character_hero.update(dt);
-        rec_character_hero.x=character_hero.getBoundRectangle().x;
-        rec_character_hero.y=character_hero.getBoundRectangle().y;
+        if (ON_LEVEL) {
+            handleInput();
+            camera.position.set(character_hero.GetX() + 100, character_hero.GetY() + 100, 0);
+            //camera.update();
+            //img.setPosition(man_x,man_y);
+            character_hero.update(dt);
+            rec_character_hero.x = character_hero.getBoundRectangle().x;
+            rec_character_hero.y = character_hero.getBoundRectangle().y;
 
-        if (!isOverlaping) {
+            if (!isOverlaping) {
 
-            isOverlaping = health_potion.getBoundingRectangle().overlaps(character_hero.getBoundRectangle());
-            if (isOverlaping){
-                System.out.println("Heal potion taken");
+                isOverlaping = health_potion.getBoundingRectangle().overlaps(character_hero.getBoundRectangle());
+                if (isOverlaping) {
+                    System.out.println("Heal potion taken");
+                }
             }
+
         }
     }
 
     @Override
     public void render(SpriteBatch sb) {
-        //sb.setProjectionMatrix(camera.combined);
-        sb.begin();
-        camera.update();
-        static_camera.update();
-        matrix4=sb.getProjectionMatrix();
-		sb.setProjectionMatrix(camera.combined);
+        if (ON_LEVEL) {
+            //sb.setProjectionMatrix(camera.combined);
+            sb.begin();
+            camera.update();
+            static_camera.update();
+            matrix4 = sb.getProjectionMatrix();
+            sb.setProjectionMatrix(camera.combined);
 
-        sb.draw(back_ground,0,0);
-        sb.draw(back_ground,480,0);
-        tree.draw(sb);
-        home.draw(sb);
-        grass.draw(sb);
-        grass2.draw(sb);
-        grass3.draw(sb);
-        if (!isOverlaping) {
-            health_potion.draw(sb);
+            sb.draw(back_ground, 0, 0);
+            sb.draw(back_ground, 480, 0);
+            tree.draw(sb);
+            home.draw(sb);
+            grass.draw(sb);
+            grass2.draw(sb);
+            grass3.draw(sb);
+            if (!isOverlaping) {
+                health_potion.draw(sb);
+            }
+            character_hero.draw(sb);
+
+
+            int fps = Gdx.graphics.getFramesPerSecond();
+            if (fps >= 45) {
+                // 45 or more FPS show up in green
+                FontRed1.setColor(0, 1, 0, 1);
+            } else if (fps >= 30) {
+                // 30 or more FPS show up in yellow
+                FontRed1.setColor(1, 1, 0, 1);
+            } else {
+                // less than 30 FPS show up in red
+                FontRed1.setColor(1, 0, 0, 1);
+            }
+            FontRed1.draw(sb, " FPS : " + fps, 10, 470);
+
+
+            sb.setProjectionMatrix(static_camera.combined);
+
+            bnt_arrow.draw(sb);
+            bnt_arrow_l.draw(sb);
+            bnt_arrow_r.draw(sb);
+            //animation.getFrames().getTexture();
+            //img.draw(sb);
+            //animation.getFrames().getTexture().;
+            sb.end();
         }
-        character_hero.draw(sb);
+    }
 
-
-        int fps = Gdx.graphics.getFramesPerSecond();
-        if (fps >= 45) {
-            // 45 or more FPS show up in green
-            FontRed1.setColor(0, 1, 0, 1);
-        } else if (fps >= 30) {
-            // 30 or more FPS show up in yellow
-            FontRed1.setColor(1, 1, 0, 1);
-        } else {
-            // less than 30 FPS show up in red
-            FontRed1.setColor(1, 0, 0, 1);
-        }
-        FontRed1.draw(sb, " FPS : "+  fps, 10, 470);
-
-
-
-        sb.setProjectionMatrix(static_camera.combined);
-
-        bnt_arrow.draw(sb);
-        bnt_arrow_l.draw(sb);
-        bnt_arrow_r.draw(sb);
-        //animation.getFrames().getTexture();
-        //img.draw(sb);
-        //animation.getFrames().getTexture().;
-        sb.end();
+    public static void enter_house(){
+        ON_LEVEL=false;
+        savedPosition.set(character_hero.GetX(),character_hero.GetY());
+        gsm.push(new house(gsm));
     }
 
     @Override
