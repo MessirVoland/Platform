@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -52,12 +53,24 @@ public class TestState extends State {
     public static Vector2 savedPosition;
 
     public ParticleEffect particleEffect;
+    ShaderProgram shaderProgram;
+    public boolean start_once=true;
+
 
     public TestState(GameStateManager gsm) {
         super(gsm);
 
         particleEffect = new ParticleEffect();
         particleEffect.load(Gdx.files.internal("parts/part.p"), Gdx.files.internal("parts"));
+
+        ShaderProgram.pedantic = false;
+        shaderProgram=new ShaderProgram(Gdx.files.internal("shaders/default.vert"),Gdx.files.internal("shaders/default.frag"));
+
+        if (!shaderProgram.isCompiled()) {
+            System.err.println(shaderProgram.getLog());
+            System.exit(0);
+        }
+
 
 
 
@@ -143,6 +156,7 @@ public class TestState extends State {
                 isOverlaping = health_potion.getBoundingRectangle().overlaps(character_hero.getBoundRectangle());
                 if (isOverlaping) {
                     System.out.println("Heal potion taken");
+
                     particleEffect.start();
                 }
             }
@@ -169,6 +183,15 @@ public class TestState extends State {
             grass3.draw(sb);
             if (!isOverlaping) {
                 health_potion.draw(sb);
+            }
+            else
+            {
+                if (particleEffect.isComplete()) {
+                    if (start_once) {
+                        sb.setShader(shaderProgram);
+                        start_once = !start_once;
+                    }
+                }
             }
             character_hero.draw(sb);
 
