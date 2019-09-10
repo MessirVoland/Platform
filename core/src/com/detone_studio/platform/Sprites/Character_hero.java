@@ -77,8 +77,8 @@ public class Character_hero extends Sprite_basic {
         //local_y=y;
         new TextureRegion();
         animation_jump = new Animation(new TextureRegion(new Texture("atlas/jump.png")),4,1.0f);
-        animation_idle = new Animation(new TextureRegion(new Texture("atlas/idle_char.png")),5,0.8f);
-        animation_walk = new Animation(new TextureRegion(new Texture("atlas/walk_char.png")),5,0.5f);
+        animation_idle = new Animation(new TextureRegion(new Texture("atlas/idle_char_num.png")),5,0.8f);
+        animation_walk = new Animation(new TextureRegion(new Texture("atlas/walk_char2.png")),5,0.5f);
         //sprite = new Sprite(new Texture(""));
 
         float[] vertices={
