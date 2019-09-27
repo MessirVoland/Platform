@@ -117,7 +117,7 @@ public class TestState extends State {
         rec_health_potion= new Rectangle(health_potion.getX(),health_potion.getY(),health_potion.getWidth(),health_potion.getHeight());
 
 
-        back_ground=new Texture("sprites/Image2.png");
+        back_ground=new Texture("sprites/Fon.png");
 
         home = new Sprite(new Texture("sprites/Home.png"));
         home.setPosition(1500,200);
@@ -208,10 +208,10 @@ shockWave.setUniformf("time", dt);
 
 
 
-            sb.draw(back_ground, 0, 0);
-            sb.draw(back_ground, 480, 0);
-            tree.draw(sb);
-            home.draw(sb);
+            sb.draw(back_ground, 0, -135);
+            //sb.draw(back_ground, 480, 0);
+            //tree.draw(sb);
+            //home.draw(sb);
             grass.draw(sb);
             grass2.draw(sb);
             grass3.draw(sb);
@@ -248,13 +248,15 @@ shockWave.setUniformf("time", dt);
                 // less than 30 FPS show up in red
                 FontRed1.setColor(1, 0, 0, 1);
             }
-            FontRed1.draw(sb, " FPS : " + fps, 10, 470);
+
 
 
             particleEffect.draw(sb);
 
             sb.setProjectionMatrix(static_camera.combined);
 
+
+            FontRed1.draw(sb, " FPS : " + fps, 10, 710);
             bnt_arrow.draw(sb);
             bnt_arrow_l.draw(sb);
             bnt_arrow_r.draw(sb);
