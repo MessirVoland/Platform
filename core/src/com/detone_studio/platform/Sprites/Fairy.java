@@ -3,6 +3,7 @@ package com.detone_studio.platform.Sprites;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 public class Fairy extends Sprite_basic {
@@ -68,7 +69,7 @@ public class Fairy extends Sprite_basic {
     }
 
     @Override
-    public void set_position(int x, int y) {
+    public void set_position(float x, float y) {
         position.set(x,y,0);
     }
 
@@ -80,5 +81,9 @@ public class Fairy extends Sprite_basic {
     @Override
     public void dispose() {
 
+    }
+
+    public Rectangle getBoundRectangle(){
+        return sprite_fairy.getBoundingRectangle();
     }
 }

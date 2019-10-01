@@ -4,11 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Polyline;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.detone_studio.platform.States.house;
 
 import static com.detone_studio.platform.States.TestState.ON_LEVEL;
 import static com.detone_studio.platform.States.TestState.character_hero;
@@ -311,7 +308,7 @@ public class Character_hero extends Sprite_basic {
     }
 
     @Override
-    public void set_position(int x, int y) {
+    public void set_position(float x, float y) {
         character_hero.position.set(x,y,0);
     }
 
