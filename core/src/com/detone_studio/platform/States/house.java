@@ -26,10 +26,12 @@ public class house extends State {
         house_camera= new OrthographicCamera();
         house_camera.setToOrtho(false,1280 , 720);
 
+
+        character_hero.set_position(30,130);
         bnt_arrow_back = new Bnt_arrow(750,0,-270);
         System.out.println("Entered house");
-        walls = new Sprite(new Texture("sprites/Bloks.png"));
-        door = new Sprite(new Texture("sprites/Home.png"));
+        walls = new Sprite(new Texture("sprites/Room.png"));
+        door = new Sprite(new Texture("sprites/Door.png"));
     }
 
     @Override

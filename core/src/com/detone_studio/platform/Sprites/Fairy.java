@@ -22,37 +22,37 @@ public class Fairy extends Sprite_basic {
 
         //случайно-неслучайное движение фейки
         if (switcher_vert){
-            if (velocity.y<10){
+            if (velocity.y<40){
                 velocity.y++;
-            }else
-            {
-                switcher_vert=true;
-            }
-        }
-        else
-        {
-            if (velocity.y>-10){
-                velocity.y--;
             }else
             {
                 switcher_vert=false;
             }
         }
-
-        if (switcher_horz){
-            if (velocity.x<10){
-                velocity.x++;
+        else
+        {
+            if (velocity.y>-40){
+                velocity.y--;
             }else
             {
-                switcher_horz=true;
+                switcher_vert=true;
             }
-        }else
-        {
-            if (velocity.x>-10){
-                velocity.x--;
+        }
+
+        if (switcher_horz){
+            if (velocity.x<20.0f){
+                velocity.x+=0.5f;
             }else
             {
                 switcher_horz=false;
+            }
+        }else
+        {
+            if (velocity.x>-20.0f){
+                velocity.x-=0.5f;
+            }else
+            {
+                switcher_horz=true;
             }
         }
 
