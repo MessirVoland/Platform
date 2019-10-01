@@ -310,6 +310,16 @@ public class Character_hero extends Sprite_basic {
         }
     }
 
+    @Override
+    public void set_position(int x, int y) {
+        character_hero.position.set(x,y,0);
+    }
+
+    @Override
+    public Vector3 get_position() {
+        return null;
+    }
+
     public Rectangle getBoundRectangle(){
         return rect_char;
     }
@@ -319,10 +329,10 @@ public class Character_hero extends Sprite_basic {
         animation_idle.dispose();
     }
 
+    /*
     public void setPosition(float x,float y){
         character_hero.position.set(x,y,0);
-
-    }
+    }*/
 
     public boolean ismoving() {
         return right|left;

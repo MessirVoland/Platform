@@ -22,6 +22,7 @@ import com.detone_studio.platform.GameStateManager;
 import com.detone_studio.platform.Sprites.Animation;
 import com.detone_studio.platform.Sprites.Bnt_arrow;
 import com.detone_studio.platform.Sprites.Character_hero;
+import com.detone_studio.platform.Sprites.Fairy;
 import com.detone_studio.platform.Worker.MyInputProcessor;
 
 
@@ -32,6 +33,8 @@ public class TestState extends State {
     public static int man_x,man_y;
     private BitmapFont FontRed1;
     public static Character_hero character_hero;
+    public static Fairy fairy;
+
     public static Sprite health_potion;
 
     public static Bnt_arrow bnt_arrow_l;
@@ -67,6 +70,8 @@ public class TestState extends State {
         super(gsm);
 
 
+        //Спрайт феи
+        fairy= new Fairy(100,100);
 
         particleEffect = new ParticleEffect();
         particleEffect.load(Gdx.files.internal("parts/part.p"), Gdx.files.internal("parts"));
@@ -161,7 +166,7 @@ public class TestState extends State {
         if (ON_LEVEL) {
             particleEffect.update(dt);
 
-shockWave.setUniformf("time", dt);
+            shockWave.setUniformf("time", dt);
 
             time+=dt;
             if(time>1){
@@ -173,6 +178,7 @@ shockWave.setUniformf("time", dt);
             //camera.update();
             //img.setPosition(man_x,man_y);
             character_hero.update(dt);
+            fairy.update(dt);
             rec_character_hero.x = character_hero.getBoundRectangle().x;
             rec_character_hero.y = character_hero.getBoundRectangle().y;
 
@@ -235,6 +241,7 @@ shockWave.setUniformf("time", dt);
 
             }
             character_hero.draw(sb);
+            fairy.draw(sb);
             sb.setShader(null);
 
             int fps = Gdx.graphics.getFramesPerSecond();
