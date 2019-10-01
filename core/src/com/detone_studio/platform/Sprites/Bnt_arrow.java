@@ -27,6 +27,16 @@ public class Bnt_arrow extends Sprite_basic {
     }
 
     @Override
+    public void set_position(float x, float y) {
+
+    }
+
+    @Override
+    public Vector3 get_position() {
+        return null;
+    }
+
+    @Override
     public void dispose() {
 
     }
