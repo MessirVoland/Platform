@@ -34,6 +34,12 @@ public class Character_hero extends Sprite_basic {
     private boolean up,down,high,stand;
     private Rectangle rect_down,rect_char;
 
+    private boolean char_dead=false;
+    private float time_flow=0.0f;
+    private float time_dead=0.0f;
+    private static final float DEAD_TIME_OF_FLOW=1.0f;//время падения до смерти
+
+
     int groud_pos,speed_move,speed_max,speed_brake;
     private double slower,haster;
     public Character_hero(int x, int y) {
@@ -50,7 +56,6 @@ public class Character_hero extends Sprite_basic {
         slower=0;
         //скорость ускорения
         haster=0;
-
 
         //прыжок
         up=false;
@@ -167,6 +172,13 @@ public class Character_hero extends Sprite_basic {
     @Override
     public void update(float dt) {
 
+        if (char_dead){
+            time_dead+=dt;
+            if (time_dead>0.5f){
+                character_hero.char_alive();
+                time_dead=0.0f;
+            }
+        }
 
         rect_char.setPosition(position.x+animation_idle.get_WIDTH()/4,position.y);
         rect_down.setPosition(position.x+animation_idle.get_WIDTH()/4+10,position.y-1);
@@ -205,13 +217,16 @@ public class Character_hero extends Sprite_basic {
                 }
             }else{
                 if(!down) {
+                    //Триггер приземления
                     animation_jump.setFrame(1);
                     //animation_jump.next_frame();
                     high = false;
                     down = true;
+                    check_dead_flow(time_flow);
+                    time_flow=0.0f;
                 }
             }
-
+        time_flow+=dt;
         }
 
         //slower=(velosity.x*speed_move/speed_max)-5;
@@ -223,21 +238,17 @@ public class Character_hero extends Sprite_basic {
 
         slower=-((speed_move*Math.abs(velosity.x)-(speed_max+100)*speed_brake)/speed_max);
 
-
-
-
-
-        if (velosity.y>-600){
+        if (velosity.y>-600) {
             velosity.y+=speed_grav;
         }
 
         if (right){
             velosity.x+=speed_move;
-            if (velosity.x<0){ velosity.x+=haster;            }
+            if (velosity.x<0) { velosity.x+=haster;            }
         }
         else if (left){
             velosity.x-=speed_move;
-            if (velosity.x>0){ velosity.x-=haster;            }
+            if (velosity.x>0) { velosity.x-=haster;            }
         }
         else
             {
@@ -359,4 +370,24 @@ public class Character_hero extends Sprite_basic {
 
     }
 
+    public boolean check_dead_flow(float time_flow){
+        if (!char_dead) {
+            if (time_flow >= DEAD_TIME_OF_FLOW) {
+                char_dead = true;
+                System.out.println("Чар умер");
+                character_hero.revoke_velocity();
+            }
+        }
+        return true;
+    }
+
+    public void char_alive(){
+        System.out.println("Чар ожил");
+        char_dead=false;
+        character_hero.set_position(10,10);
+    }
+
+    public void revoke_velocity(){
+        velosity.set(0,0,0);
+    }
 }
