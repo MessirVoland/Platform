@@ -148,8 +148,8 @@ public class TestState extends State {
         camera.position.set(character_hero.GetX()+300,character_hero.GetY()+100,0);
 
 
-        inputProcessor = new MyInputProcessor();
-        Gdx.input.setInputProcessor(inputProcessor);
+        //inputProcessor = new MyInputProcessor();
+        //Gdx.input.setInputProcessor(inputProcessor);
         savedPosition = new Vector2();
         savedPosition.set(10,10);
     }
@@ -280,7 +280,7 @@ public class TestState extends State {
     public static void enter_house(){
         ON_LEVEL=false;
         savedPosition.set(character_hero.GetX(),character_hero.GetY());
-        gsm.push(new house(gsm));
+        gsm.push(new House(gsm));
     }
 
     @Override

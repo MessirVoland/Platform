@@ -1,11 +1,14 @@
 package com.detone_studio.platform.Sprites;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.detone_studio.platform.Worker.CharInputProcessor;
 
 import static com.detone_studio.platform.States.TestState.ON_LEVEL;
 import static com.detone_studio.platform.States.TestState.character_hero;
@@ -25,6 +28,8 @@ public class Character_hero extends Sprite_basic {
     private Vector3 position;
     private Vector3 velosity;
     private int speed_grav;
+
+    private InputProcessor inputProcessor;
 
 
     //private Vector2 polyline_set_down;
@@ -97,6 +102,10 @@ public class Character_hero extends Sprite_basic {
         rect_down.setPosition(position.x+animation_idle.get_WIDTH()/4+10,position.y-1);
 
         //polyline_set_down=new Vector2(position.x+(animation_idle.get_WIDTH()/2),position.y-5);
+
+        CharInputProcessor charInputProcessor = new CharInputProcessor();
+        //charInputProcessor.setHero(this);
+        Gdx.input.setInputProcessor(charInputProcessor);
     }
 
     public void jump(){
@@ -175,7 +184,7 @@ public class Character_hero extends Sprite_basic {
         if (char_dead){
             time_dead+=dt;
             if (time_dead>0.5f){
-                character_hero.char_alive();
+                this.char_alive();
                 time_dead=0.0f;
             }
         }
@@ -295,20 +304,20 @@ public class Character_hero extends Sprite_basic {
     public void draw(Batch sb) {
 
         if (isJumping){
-            shaderProgram.setUniformf("hard_light",0.5f);
+            //shaderProgram.setUniformf("hard_light",0.5f);
             //sb.draw(animation_jump.getFramesS(),position.x-25,position.y-25);
             animation_jump.getFramesS().translateY(-(animation_jump.getFramesS().getHeight()-animation_jump.getFramesS().getOriginY())/2);
             animation_jump.getFramesS().draw(sb);
             animation_jump.getFramesS().translateY(+(animation_jump.getFramesS().getHeight()-animation_jump.getFramesS().getOriginY())/2);
         }else {
             if(stand) {
-                shaderProgram.setUniformf("hard_light",1.0f);
+                //shaderProgram.setUniformf("hard_light",1.0f);
                 animation_idle.getFramesS().translateY(-(animation_idle.getFramesS().getHeight() - animation_idle.getFramesS().getOriginY()) / 2);
                 animation_idle.getFramesS().draw(sb);
                 animation_idle.getFramesS().translateY(+(animation_idle.getFramesS().getHeight() - animation_idle.getFramesS().getOriginY()) / 2);
             }else
             {
-                shaderProgram.setUniformf("hard_light",1.5f);
+                //shaderProgram.setUniformf("hard_light",1.5f);
                 animation_walk.getFramesS().translateY(-(animation_walk.getFramesS().getHeight() - animation_walk.getFramesS().getOriginY()) / 2);
                 animation_walk.getFramesS().draw(sb);
                 animation_walk.getFramesS().translateY(+(animation_walk.getFramesS().getHeight() - animation_walk.getFramesS().getOriginY()) / 2);
@@ -320,7 +329,7 @@ public class Character_hero extends Sprite_basic {
 
     @Override
     public void set_position(float x, float y) {
-        character_hero.position.set(x,y,0);
+        this.position.set(x,y,0);
     }
 
     @Override
@@ -375,7 +384,7 @@ public class Character_hero extends Sprite_basic {
             if (time_flow >= DEAD_TIME_OF_FLOW) {
                 char_dead = true;
                 System.out.println("Чар умер");
-                character_hero.revoke_velocity();
+                this.revoke_velocity();
             }
         }
         return true;
@@ -384,7 +393,7 @@ public class Character_hero extends Sprite_basic {
     public void char_alive(){
         System.out.println("Чар ожил");
         char_dead=false;
-        character_hero.set_position(10,10);
+        this.set_position(10,10);
     }
 
     public void revoke_velocity(){

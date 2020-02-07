@@ -12,14 +12,14 @@ import static com.badlogic.gdx.Input.Keys.DOWN;
 import static com.detone_studio.platform.States.TestState.*;
 
 
-public class house extends State {
+public class House extends State {
     private Sprite walls,door;
     private boolean entered;
     public static Bnt_arrow bnt_arrow_back;
 
     private OrthographicCamera house_camera;
 
-    public house(GameStateManager gsm) {
+    public House(GameStateManager gsm) {
         super(gsm);
         entered=true;
 
