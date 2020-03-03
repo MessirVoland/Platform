@@ -26,7 +26,7 @@ public class CocosTestState extends State {
         stage = new Stage(new ScreenViewport(new OrthographicCamera(480,600)));
         character_hero2 = new Character_hero2();
 
-        character_hero2.setBounds(0,0,250,250);
+        //character_hero2.setBounds(0,0,250,250);
 
         character_hero2.setTouchable(Touchable.enabled);
         character_hero2.addListener(new InputListener(){
