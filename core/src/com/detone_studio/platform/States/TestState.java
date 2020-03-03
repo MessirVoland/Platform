@@ -58,8 +58,8 @@ public class TestState extends State {
     public static Vector2 savedPosition;
 
     public ParticleEffect particleEffect;
-    public static ShaderProgram shaderProgram;
-    public static ShaderProgram shockWave;
+    //public static ShaderProgram shaderProgram;
+    //public static ShaderProgram shockWave;
     public boolean start_once=true;
 
     private FrameBuffer fbo;
@@ -78,6 +78,7 @@ public class TestState extends State {
 
         ShaderProgram.pedantic = false;
 
+        /*
         shockWave = new ShaderProgram(Gdx.files.internal("shaders/ShockWave.vert.glsl"),Gdx.files.internal("shaders/ShockWave.frag.glsl"));
         if (!shockWave.isCompiled()) {
             System.err.println(shockWave.getLog());
@@ -91,7 +92,7 @@ public class TestState extends State {
             System.err.println(shaderProgram.getLog());
             System.exit(0);
         }
-
+        */
 
 
 
@@ -166,7 +167,7 @@ public class TestState extends State {
         if (ON_LEVEL) {
             particleEffect.update(dt);
 
-            shockWave.setUniformf("time", dt);
+            //shockWave.setUniformf("time", dt);
 
             time+=dt;
             if(time>1){
@@ -235,7 +236,7 @@ public class TestState extends State {
             }
 
             if (!start_once) {
-                sb.setShader(shaderProgram);
+               //sb.setShader(shaderProgram);
 
 
 

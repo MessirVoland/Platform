@@ -1,18 +1,13 @@
 package com.detone_studio.platform.Worker;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector3;
 import com.detone_studio.platform.States.TestState;
 
-import static com.detone_studio.platform.Main.HEIGHT;
-import static com.detone_studio.platform.Main.WIDTH;
-import static com.detone_studio.platform.States.TestState.animtime;
 import static com.detone_studio.platform.States.TestState.bnt_arrow;
 import static com.detone_studio.platform.States.TestState.bnt_arrow_l;
 import static com.detone_studio.platform.States.TestState.bnt_arrow_r;
 import static com.detone_studio.platform.States.TestState.character_hero;
-import static com.detone_studio.platform.States.TestState.home;
 
 public class MyInputProcessor implements InputProcessor {
 

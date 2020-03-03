@@ -7,9 +7,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.detone_studio.platform.States.CocosTestState;
 import com.detone_studio.platform.States.TestState;
 
-public class Main implements ApplicationListener {
+public class MainClass implements ApplicationListener {
 
 	private GameStateManager gsm;
 	private SpriteBatch batch;
@@ -29,7 +30,7 @@ public class Main implements ApplicationListener {
 		gsm = new GameStateManager();
 		//Gdx.gl20.glEnable(GL30.GL_BLEND);
 		Gdx.gl.glClearColor(0, 0, 0, 0);
-		gsm.push(new TestState(gsm));
+		gsm.push(new CocosTestState(gsm));
 	}
 
 	@Override
