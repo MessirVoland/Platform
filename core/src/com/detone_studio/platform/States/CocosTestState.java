@@ -5,6 +5,8 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -20,6 +22,9 @@ import java.awt.Image;
 public class CocosTestState extends State {
 
     private Stage stage;
+    World world;
+    //Player player;
+
     private Character_hero2 character_hero2;
     public CocosTestState(GameStateManager gsm) {
         super(gsm);
@@ -28,7 +33,10 @@ public class CocosTestState extends State {
 
         //character_hero2.setBounds(0,0,250,250);
 
+        world = new World(new Vector2(0,-20),true);
+
         character_hero2.setTouchable(Touchable.enabled);
+        world.
         character_hero2.addListener(new InputListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("CLICKED");
